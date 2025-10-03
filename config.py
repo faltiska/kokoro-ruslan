@@ -50,7 +50,7 @@ class TrainingConfig:
     f_max: float = 8000.0
 
     # Data loading
-    num_workers: int = 2
+    num_workers: int = 8
     pin_memory: bool = False
 
     # Checkpointing
@@ -274,7 +274,7 @@ class TrainingConfig:
         config = cls(**kwargs)
         config.gradient_checkpointing = False  # Disable for speed
         config.checkpoint_segments = 1
-        config.num_workers = 4  # More workers for faster data loading
+        config.num_workers = 8  # More workers for faster data loading
         config.pin_memory = True if config.device == 'cuda' else False
 
         print("Speed optimization enabled:")
@@ -319,7 +319,7 @@ def get_speed_config() -> TrainingConfig:
     """Get configuration optimized for training speed"""
     return TrainingConfig.create_speed_optimized_config(
         batch_size=24,
-        num_workers=4
+        num_workers=8
     )
 
 

@@ -15,9 +15,7 @@ import torch.profiler
 import datetime
 import gc
 
-from typing import Tuple, Dict, Any, Optional
-from dataclasses import dataclass
-from enum import Enum
+from typing import Tuple, Dict, Any
 
 from config import TrainingConfig
 from device_type import DeviceType
@@ -76,7 +74,7 @@ class KokoroTrainer:
         # Check device support for mixed precision
         if self.use_mixed_precision:
             if self.device.type == DeviceType.CUDA.value:
-                self.scaler = torch.cuda.amp.GradScaler('cuda',
+                self.scaler = torch.amp.GradScaler('cuda',
                     init_scale=getattr(config, 'amp_init_scale', 65536.0),
                     growth_factor=getattr(config, 'amp_growth_factor', 2.0),
                     backoff_factor=getattr(config, 'amp_backoff_factor', 0.5),
@@ -126,7 +124,7 @@ class KokoroTrainer:
             self.dataset,
             batch_sampler=self.batch_sampler,
             collate_fn=collate_fn,
-            num_workers=2,
+            num_workers=8,
             pin_memory=config.pin_memory and self.device.type == DeviceType.CUDA.value,
             prefetch_factor=3,
             persistent_workers=True
@@ -195,7 +193,7 @@ class KokoroTrainer:
             return torch.no_grad().__enter__()  # No-op context
 
         if self.device_type == DeviceType.CUDA.value:
-            return torch.cuda.amp.autocast('cuda')
+            return torch.amp.autocast('cuda')
         elif self.device_type == DeviceType.MPS.value:
             return torch.autocast(device_type='mps', dtype=self.mixed_precision_dtype)
         else:

@@ -42,7 +42,7 @@ The metadata CSV should be formatted as: `audio_filename|transcription`
 python training.py
 
 # Specify custom corpus and output directories
-python training.py --corpus /path/to/ruslan_corpus --output ./my_russian_model
+python training.py --corpus ./data/ruslan_corpus --output ./models/kokoro_russian_v1
 
 # For Mac users with MPS issues
 PYTORCH_ENABLE_MPS_FALLBACK=1 python training.py
@@ -82,15 +82,15 @@ python training.py --resume auto --batch-size 16 --epochs 200
 
 ## Command Line Arguments
 
-| Argument | Short | Default | Description |
-|----------|-------|---------|-------------|
-| `--corpus` | `-c` | `./ruslan_corpus` | Path to the corpus directory |
-| `--output` | `-o` | `./kokoro_russian_model` | Path to the output model directory |
-| `--resume` | `-r` | `None` | Resume from checkpoint (auto or path to .pth file) |
-| `--batch-size` | `-b` | `8` | Batch size for training |
-| `--epochs` | `-e` | `100` | Number of training epochs |
-| `--learning-rate` | `-lr` | `1e-4` | Learning rate |
-| `--save-every` |  | `2` | Save checkpoint every N epochs |
+| Argument          | Short  | Default | Description |
+|-------------------|--------|---------|-------------|
+| `--corpus`        | `-c`   | `./ruslan_corpus` | Path to the corpus directory |
+| `--output`        | `-o`   | `./kokoro_russian_model` | Path to the output model directory |
+| `--resume`        | `-r`   | `None` | Resume from checkpoint (auto or path to .pth file) |
+| `--batch-size`    | `-b`   | `8` | Batch size for training |
+| `--epochs`        | `-e`   | `100` | Number of training epochs |
+| `--learning-rate` | `-lr`  | `1e-4` | Learning rate |
+| `--save-every`    |        | `2` | Save checkpoint every N epochs |
 
 ## Model Architecture
 
@@ -233,7 +233,7 @@ INFO:__main__:Checkpoint saved: ./kokoro_russian_model/checkpoint_epoch_2.pth
 
 ```bash
 # Download and prepare Ruslan corpus, then:
-python training.py --corpus ./ruslan_corpus --epochs 10
+python training.py --corpus ./data/ruslan_corpus --output ./models/kokoro_russian_v1 --epochs 10
 ```
 
 ### Production Training
@@ -253,10 +253,7 @@ PYTORCH_ENABLE_MPS_FALLBACK=1 python training.py \
 
 ```bash
 # Auto-resume from latest checkpoint
-PYTORCH_ENABLE_MPS_FALLBACK=1 python training.py \
-    --corpus ./data/ruslan_corpus \
-    --output ./models/kokoro_russian_v1 \
-    --resume auto
+python training.py --corpus ./data/ruslan_corpus  --output ./models/kokoro_russian_v1  --resume auto
 ```
 
 ## Requirements
