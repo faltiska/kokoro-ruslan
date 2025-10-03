@@ -31,7 +31,7 @@ kokoro_russian_model/
 Convert a single Russian text to speech:
 
 ```shell
-python inference.py --model ./kokoro_russian_model --text "Привет, как дела?"
+python inference.py --model ./models/kokoro_russian_v1 --text "Привет, как дела?"
 ```
 
 This will generate `output.wav` in the current directory.
@@ -41,7 +41,7 @@ This will generate `output.wav` in the current directory.
 Specify a custom output file:
 
 ```shell
-python inference.py --model ./kokoro_russian_model --text "Привет мир" --output hello.wav
+python inference.py --model ./models/kokoro_russian_v1 --text "Привет мир" --output hello.wav
 ```
 
 ### 3. Convert from Text File
@@ -49,7 +49,7 @@ python inference.py --model ./kokoro_russian_model --text "Привет мир" 
 Read text from a file and convert to speech:
 
 ```shell
-python inference.py --model ./kokoro_russian_model --text-file input.txt --output output.wav
+python inference.py --model ./models/kokoro_russian_v1 --text-file input.txt --output output.wav
 ```
 
 Create `input.txt` with your Russian text:
@@ -62,7 +62,7 @@ Create `input.txt` with your Russian text:
 Enter text interactively for quick testing:
 
 ```shell
-python inference.py --model ./kokoro_russian_model --interactive
+python inference.py --model ./models/kokoro_russian_v1 --interactive
 ```
 
 Type Russian text and press Enter. Type `quit` to exit.
@@ -73,13 +73,13 @@ Force specific device usage:
 
 ```shell
 # Use MPS (Mac Metal)
-python inference.py --model ./kokoro_russian_model --text "Тест" --device mps
+python inference.py --model ./models/kokoro_russian_v1 --text "Тест" --device mps
 
 # Use CUDA (NVIDIA GPU)
-python inference.py --model ./kokoro_russian_model --text "Тест" --device cuda
+python inference.py --model ./models/kokoro_russian_v1 --text "Тест" --device cuda
 
 # Use CPU
-python inference.py --model ./kokoro_russian_model --text "Тест" --device cpu
+python inference.py --model ./models/kokoro_russian_v1 --text "Тест" --device cpu
 ```
 
 ## Command Line Arguments
@@ -170,7 +170,7 @@ Create multiple audio files:
 ```python
 from inference import KokoroTTS
 
-tts = KokoroTTS("./kokoro_russian_model")
+tts = KokoroTTS("./models/kokoro_russian_v1")
 
 texts = [
     "Первый пример текста.",
@@ -190,7 +190,7 @@ from inference import KokoroTTS
 import torchaudio
 
 # Initialize TTS
-tts = KokoroTTS("./kokoro_russian_model")
+tts = KokoroTTS("./models/kokoro_russian_v1")
 
 # Generate speech
 audio_tensor = tts.text_to_speech("Привет мир!")
