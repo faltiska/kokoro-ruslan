@@ -170,7 +170,7 @@ Create multiple audio files:
 ```python
 from inference import KokoroTTS
 
-tts = KokoroTTS("models/kokoro_russian_v1_bck")
+tts = KokoroTTS("./models/kokoro_russian_v1")
 
 texts = [
     "Первый пример текста.",
@@ -190,7 +190,7 @@ from inference import KokoroTTS
 import torchaudio
 
 # Initialize TTS
-tts = KokoroTTS("models/kokoro_russian_v1_bck")
+tts = KokoroTTS("./models/kokoro_russian_v1")
 
 # Generate speech
 audio_tensor = tts.text_to_speech("Привет мир!")
