@@ -860,7 +860,7 @@ class KokoroTrainer:
                     report = self.memory_manager.get_memory_report()
                     logger.info(f"  Current pressure: {report['current_pressure']}")
                     logger.info(f"  Memory usage: {report.get('current_memory_usage_percent', 0):.1f}%")
-                    logger.info(f"  Cleanups performed: {report['cleanup_count']}")
+                    logger.info(f"  Total Cleanups performed: {report['cleanup_count']}")
                     logger.info(f"  Cleanup overhead: {report['cleanup_overhead_percent']:.2f}%")
 
                 # Print interbatch profiling stats periodically
@@ -972,6 +972,7 @@ class KokoroTrainer:
             logger.info(f"Running standalone profiling before training on {self.device_type}...")
             self.profile_training_steps(self.config.profile_steps)
 
+        total_cleanups = 0
         for epoch in range(self.start_epoch, self.config.num_epochs):
             avg_total_loss, avg_mel_loss, avg_dur_loss, avg_stop_loss = self.train_epoch(epoch)
 
@@ -990,7 +991,9 @@ class KokoroTrainer:
                 memory_report = self.memory_manager.get_memory_report()
                 logger.info(f"Memory Management Summary - Epoch {epoch+1}:")
                 logger.info(f"  Current Pressure: {memory_report['current_pressure']}")
-                logger.info(f"  Cleanups This Epoch: {memory_report['cleanup_count']}")
+                cleanups_this_epoch = memory_report['cleanup_count'] - total_cleanups
+                total_cleanups = memory_report['cleanup_count']
+                logger.info(f"  Cleanups This Epoch: {cleanups_this_epoch}")
                 logger.info(f"  Memory Trend: {memory_report['memory_trend']:+.2f}%")
                 logger.info(f"  Cleanup Overhead: {memory_report['cleanup_overhead_percent']:.2f}%")
 
